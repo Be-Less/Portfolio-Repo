@@ -179,10 +179,10 @@
                         <span>GitHub</span>
                         <span>↗</span>
                     </a>
-                    <a href="#contact" class="px-4 py-3.5 text-charcoal/70 hover:text-charcoal font-mono text-sm transition-colors flex items-center space-x-1">
+                    <button id="resume-btn" class="px-4 py-3.5 text-charcoal/70 hover:text-charcoal font-mono text-sm transition-colors flex items-center space-x-1 cursor-pointer">
                         <span>Download Resume</span>
                         <span>↓</span>
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -814,6 +814,28 @@
         </div>
     </footer>
 
+    <!-- Resume Download Modal Template -->
+    <div id="resume-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-charcoal/60 backdrop-blur-sm px-4">
+        <div class="bg-cardbg border border-charcoal/20 rounded-xl p-6 sm:p-8 max-w-md w-full shadow-terminal space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-charcoal/10">
+                <h3 class="font-heading text-xl font-bold text-charcoal">Download Resume</h3>
+                <button id="close-resume-modal" class="font-mono text-xs text-charcoal/60 hover:text-charcoal px-2 py-1 rounded bg-cream border border-charcoal/10">✕</button>
+            </div>
+            <p class="text-charcoal/70 text-sm leading-relaxed">
+                Choose your preferred format or view the live document spec for Bilesh Bhasinka's backend engineering experience.
+            </p>
+            <div class="space-y-3 font-mono text-xs">
+                <!-- Replace '#' with your actual hosted PDF path if available -->
+                <a href="#" id="download-pdf-link" target="_blank" class="block w-full py-3 px-4 bg-herb-green text-cream text-center font-medium rounded hover:bg-herb-light transition-colors">
+                    Download PDF Format ↓
+                </a>
+                <button id="copy-email-resume" class="block w-full py-3 px-4 bg-cream text-charcoal border border-charcoal/15 text-center font-medium rounded hover:bg-charcoal/5 transition-colors">
+                    Copy Contact Email (Request Direct Copy) 📋
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Scripts -->
     <script>
         // Custom Cursor movement
@@ -850,6 +872,39 @@
         closeArchBtn.addEventListener('click', () => {
             architecturePanel.classList.add('hidden');
         });
+
+        // Resume Modal Handler
+        const resumeBtn = document.getElementById('resume-btn');
+        const resumeModal = document.getElementById('resume-modal');
+        const closeResumeModal = document.getElementById('close-resume-modal');
+        const copyEmailBtn = document.getElementById('copy-email-resume');
+
+        if (resumeBtn && resumeModal) {
+            resumeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                resumeModal.classList.remove('hidden');
+            });
+
+            closeResumeModal.addEventListener('click', () => {
+                resumeModal.classList.add('hidden');
+            });
+
+            resumeModal.addEventListener('click', (e) => {
+                if (e.target === resumeModal) {
+                    resumeModal.classList.add('hidden');
+                }
+            });
+        }
+
+        if (copyEmailBtn) {
+            copyEmailBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText('bileshbs@gmail.com');
+                copyEmailBtn.textContent = 'Email Copied to Clipboard! ✓';
+                setTimeout(() => {
+                    copyEmailBtn.textContent = 'Copy Contact Email (Request Direct Copy) 📋';
+                }, 2500);
+            });
+        }
 
         // Navigation Active Section Highlighter
         const sections = document.querySelectorAll('section');
